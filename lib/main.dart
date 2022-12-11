@@ -1,4 +1,7 @@
+import 'package:aoc2022/problems/generic.dart';
 import 'package:flutter/material.dart';
+
+import 'problems/problem_01.dart';
 
 void main() {
   runApp(const MyApp());
@@ -6,6 +9,8 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
+  List<Problem> problems=[Problem1()];
 
   // This widget is the root of your application.
   @override
@@ -26,9 +31,9 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(child: Scaffold(
-      body:ListView(children:[]
+      body:ListView(children:const []
       ))
-    ));
+    ))
   }
 
   ElevatedButton problemButton(Widget problem){

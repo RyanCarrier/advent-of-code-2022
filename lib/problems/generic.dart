@@ -1,30 +1,15 @@
 import 'package:flutter/material.dart';
 
-abstract class Problem {
-  int get number;
-  List<SubProblem> get subproblems;
-}
+abstract class Problem implements StatelessWidget {
+  int get day;
 
-enum ProblemType {
-  example,
-  small,
-  large,
-  test,
-}
-
-class SubProblem {
-  final ProblemType type;
-  final MaterialPageRoute? visualiseTest;
+  MaterialPageRoute? visualise;
   String? result;
 
-  final Function solve;
+  void solve();
 
-  SubProblem({
-    required this.type,
-    this.visualiseTest,
-    this.result,
-    required this.solve,
-  });
-
-  List<String> getInput(ProblemType type) {}
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
 }
