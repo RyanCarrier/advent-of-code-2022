@@ -2,12 +2,11 @@ import 'package:aoc2022/util.dart';
 import 'package:flutter/material.dart';
 
 import 'package:aoc2022/problems/generic.dart';
-import 'dart:math' as math;
 
-const problemDay = 1;
+const problemDay = 0;
 
-class Problem1 implements Problem {
-  Problem1({Key? key});
+class Problem0 implements Problem {
+  Problem0({Key? key});
 
   @override
   final int day = problemDay;
@@ -44,52 +43,15 @@ class Part2 extends ProblemPart {
 String? _solve(String? input) {
   if (input == null) return null;
   var lines = input.split("\n");
-  var max = 0;
-  var current = 0;
-  for (var line in lines) {
-    if (line.isEmpty) {
-      max = math.max(current, max);
-      current = 0;
-    } else {
-      current += int.parse(line);
-    }
-  }
-  return '$max';
+  return '${lines.length}';
 }
 
 String testInput() {
-  return '''1000
-2000
-3000
-
-4000
-
-5000
-6000
-
-7000
-8000
-9000
-
-10000''';
+  return '''00''';
 }
 
 String? _solve2(String? input) {
   if (input == null) return null;
   var lines = input.split("\n");
-
-  var elves = [];
-  var current = 0;
-  for (var line in lines) {
-    if (line.isNotEmpty) {
-      current += int.parse(line);
-      continue;
-    }
-    elves.add(current);
-    current = 0;
-  }
-  elves.sort();
-  elves = elves.reversed.toList();
-
-  return (elves[0] + elves[1] + elves[2]).toString();
+  return '${lines.length}';
 }
