@@ -2,19 +2,16 @@ import 'package:flutter/material.dart';
 
 import 'package:aoc2022/problems/generic.dart';
 
-const problemDay = 2;
+const day = 2;
 
 class Problem2 extends Problem {
-  Problem2({Key? key}) : super(key: key) {
+  Problem2({Key? key}) : super(day, key: key) {
     parts = [
       TestPart1(testInput),
       Part1(input),
       Part2(input),
     ];
   }
-
-  @override
-  final int day = problemDay;
 
   @override
   String getTestInput() {

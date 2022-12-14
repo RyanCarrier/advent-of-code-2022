@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 import 'package:aoc2022/problems/generic.dart';
 
-const day = 0;
+const day = 3;
 
-class Problem00 extends Problem {
-  Problem00({Key? key}) : super(day, key: key) {
+class Problem3 extends Problem {
+  Problem3({Key? key}) : super(day, key: key) {
     parts = [
       TestPart1(testInput),
       Part1(input),
@@ -15,7 +15,12 @@ class Problem00 extends Problem {
 
   @override
   String getTestInput() {
-    return '''00''';
+    return '''vJrwpWtwJgWrhcsFMMfFFhFp
+jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL
+PmmdzqPrVvPwwTWBwg
+wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn
+ttgJtRGJQctTZtZT
+CrZsJsPPZsGzwwsLwLmpwMDw''';
   }
 }
 
@@ -38,6 +43,8 @@ class Part2 extends ProblemPart {
 }
 
 String _solve(List<String> lines) {
+//
+
   return solvingError;
 }
 

@@ -51,9 +51,9 @@ extension StatusNameExtension on ProblemStatus {
 }
 
 abstract class Problem {
-  Problem({this.key});
+  Problem(this.day, {this.key});
   Key? key;
-  int get day;
+  final int day;
   late List<ProblemPart> parts;
   String getTestInput();
   Duration? inputDuration;
