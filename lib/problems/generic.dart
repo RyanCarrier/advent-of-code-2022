@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:aoc2022/util.dart' as util;
 import 'package:flutter/material.dart';
 
 enum ProblemType {
@@ -7,7 +10,17 @@ enum ProblemType {
   part2,
 }
 
-extension NameExtension on ProblemType {
+enum ProblemStatus {
+  none,
+  input,
+  solving,
+  solved,
+}
+
+const inputError = "ERROR: input";
+const solvingError = "ERROR: solving";
+
+extension TypeNameExtension on ProblemType {
   String get name {
     switch (this) {
       case ProblemType.testPart1:
@@ -22,20 +35,61 @@ extension NameExtension on ProblemType {
   }
 }
 
-abstract class Problem {
-  int get day;
+extension StatusNameExtension on ProblemStatus {
+  String get name {
+    switch (this) {
+      case ProblemStatus.none:
+        return 'None';
+      case ProblemStatus.input:
+        return 'Input';
+      case ProblemStatus.solving:
+        return 'Solving';
+      case ProblemStatus.solved:
+        return 'Solved';
+    }
+  }
+}
 
-  List<ProblemPart> get parts;
+abstract class Problem {
+  Problem({this.key});
+  Key? key;
+  int get day;
+  late List<ProblemPart> parts;
+  String getTestInput();
+  Duration? inputDuration;
+
+  List<String>? _input;
+  List<String>? _testInput;
+  Future<List<String>> input() async {
+    if (_input == null) {
+      inputDuration = await _timeIt(() async {
+        _input = (await util.getInput(day))!.split('\n');
+      });
+    }
+    return _input!;
+  }
+
+  Future<List<String>> testInput() async =>
+      _testInput ??= getTestInput().split('\n');
 }
 
 abstract class ProblemPart {
+  Key? key = UniqueKey();
   ProblemType type;
-  ProblemPart(this.type);
-  bool solving = false;
+  Future<List<String>> Function() input;
+  ProblemPart(this.type, this.input, {this.key});
+  ProblemStatus status = ProblemStatus.none;
+
+  Duration? solveDuration;
   Widget? visualise;
   String? result;
 
-  Future<void> solve();
+  String solve(List<String> lines);
+
+  Future<void> runProblem() async {
+    List<String> problemInput = await input();
+    solveDuration = await _timeIt(() => result = solve(problemInput));
+  }
 }
 
 class ProblemContainer extends StatefulWidget {
@@ -71,10 +125,10 @@ class _ProblemContainerState extends State<ProblemContainer> {
             child: Text(text),
             onPressed: () {
               setState(() {
-                p.solving = true;
+                p.status = ProblemStatus.input;
               });
-              p.solve().then((value) => setState(() {
-                    p.solving = false;
+              p.runProblem().then((value) => setState(() {
+                    p.status = ProblemStatus.solved;
                   }));
             }));
     return Row(
@@ -84,7 +138,7 @@ class _ProblemContainerState extends State<ProblemContainer> {
           padding: const EdgeInsets.all(8.0),
           child: Text(p.type.name),
         ),
-        p.solving
+        p.status == ProblemStatus.solving
             ? const CircularProgressIndicator()
             : (p.result != null
                 ? Row(children: [
@@ -113,4 +167,12 @@ class _ProblemContainerState extends State<ProblemContainer> {
       ],
     );
   }
+}
+
+Future<Duration> _timeIt(Function f) async {
+  Stopwatch timer = Stopwatch();
+  timer.start();
+  await f();
+  timer.stop();
+  return timer.elapsed;
 }
