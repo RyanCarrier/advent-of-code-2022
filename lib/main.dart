@@ -2,6 +2,7 @@ import 'package:aoc2022/problems/generic.dart';
 import 'package:aoc2022/problems/problem_02.dart';
 import 'package:aoc2022/problems/problem_03.dart';
 import 'package:aoc2022/problems/problem_04.dart';
+import 'package:aoc2022/problems/problem_05.dart';
 import 'package:aoc2022/util.dart';
 import 'package:flutter/material.dart';
 
@@ -35,6 +36,18 @@ class Home extends StatelessWidget {
     Problem2(),
     Problem3(),
     Problem4(),
+    Problem5(),
+    // Problem6(),
+    // Problem7(),
+    // Problem8(),
+    // Problem9(),
+    // Problem10(),
+    // Problem11(),
+    // Problem12(),
+    // Problem13(),
+    // Problem14(),
+    // Problem15(),
+    // Problem16(),
   ];
 
   @override

@@ -77,12 +77,13 @@ abstract class ProblemPart {
   Key? key = UniqueKey();
   ProblemType type;
   Future<List<String>> Function() input;
-  ProblemPart(this.type, this.input, {this.key});
+  ProblemPart(this.type, this.input, {this.key, this.visualise});
   ProblemStatus status = ProblemStatus.none;
 
   Duration? solveDuration;
-  Widget? visualise;
   String? result;
+
+  Widget Function()? visualise;
 
   String solve(List<String> lines);
 
@@ -152,16 +153,22 @@ class _ProblemContainerState extends State<ProblemContainer> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: ElevatedButton(
+            onPressed: p.visualise == null
+                ? null
+                : () => Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => Scaffold(
+                          appBar: AppBar(
+                            title: Text(
+                                "Day ${widget.problem.day}, ${p.type.name}"),
+                          ),
+                          body: p.visualise!(),
+                        ),
+                      ),
+                    ),
             child: Text(p.visualise == null
                 ? "Visualisation unavailable"
                 : "Visualise"),
-            onPressed: () => p.visualise == null
-                ? null
-                : MaterialPageRoute(
-                    builder: (context) {
-                      return p.visualise!;
-                    },
-                  ),
           ),
         ),
       ],
